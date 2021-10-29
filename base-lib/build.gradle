@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.cheenxuan'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group='com.github.cheenxuan'
 
 android {
     compileSdkVersion 28

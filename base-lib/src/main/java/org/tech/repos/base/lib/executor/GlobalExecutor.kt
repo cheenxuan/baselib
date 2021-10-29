@@ -118,6 +118,11 @@ object GlobalExecutor {
         }
 
     }
+    
+    @Synchronized
+    fun shutDownNow(){
+        globalExecutor.shutdownNow()
+    }
 
     @Synchronized
     fun pause() {
