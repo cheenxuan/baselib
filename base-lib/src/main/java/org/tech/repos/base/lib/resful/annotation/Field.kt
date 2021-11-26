@@ -8,4 +8,4 @@ package org.tech.repos.base.lib.resful.annotation
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Field (val value:String)
+annotation class Field (val value:String,val nullable:Boolean = false)

@@ -1,6 +1,7 @@
 package org.tech.repos.base.lib.resful
 
 
+import android.text.TextUtils
 import org.tech.repos.base.lib.resful.annotation.*
 import java.lang.IllegalStateException
 import java.lang.reflect.Method
@@ -89,7 +90,13 @@ class MethodParser(
             if (annotation is Field) {
                 val key = annotation.value
                 val value = args[index]
-                parameters[key] = value
+                val nullable = annotation.nullable
+                if(nullable && TextUtils.isEmpty(value.toString())){
+                    parameters.remove(key)
+                    continue
+                }else{
+                    parameters[key] = value
+                }
             } else if (annotation is Path) {
                 val replaceName = annotation.value
                 val replacement = value.toString()
