@@ -13,13 +13,13 @@ import java.util.concurrent.ConcurrentHashMap
  */
 open class Restful constructor(val baseUrl: String, val callFactory: ResfCall.Facetory) {
     private var interceptors: MutableList<ResfInterceptor> = mutableListOf()
-    private var methodService:ConcurrentHashMap<Method, MethodParser> = ConcurrentHashMap()
+    private var methodService: ConcurrentHashMap<Method, MethodParser> = ConcurrentHashMap()
     private var scheduler: Scheduler
-    
+
     init {
-        scheduler = Scheduler(callFactory,interceptors)
+        scheduler = Scheduler(callFactory, interceptors)
     }
-    
+
     fun addInterceptor(interceptor: ResfInterceptor) {
         interceptors.add(interceptor)
     }
@@ -27,18 +27,18 @@ open class Restful constructor(val baseUrl: String, val callFactory: ResfCall.Fa
     fun <T> create(service: Class<T>): T {
         return Proxy.newProxyInstance(
             service.classLoader,
-            arrayOf<Class<*>>(service),object :InvocationHandler{
+            arrayOf<Class<*>>(service), object : InvocationHandler {
                 override fun invoke(proxy: Any, method: Method, args: Array<out Any>?): Any {
                     var methodParser = methodService[method]
                     if (methodParser == null) {
                         methodParser = MethodParser.parse(baseUrl, method)
-                        methodService[method] = methodParser
+                        if (!methodParser.getstreaming()) methodService[method] = methodParser
                     }
-                    val request= methodParser.newRequest(method,args)
+                    val request = methodParser.newRequest(method, args)
                     //callFactory.newCall(request)
                     return scheduler.newCall(request)
                 }
             }
-        )  as T
+        ) as T
     }
 }

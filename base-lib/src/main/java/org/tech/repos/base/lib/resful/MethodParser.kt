@@ -201,7 +201,8 @@ class MethodParser(
         request.cacheStrategy = cacheStrategy
         return request
     }
-
+    
+    fun getstreaming() = this.streaming
 
     companion object {
         fun parse(baseUrl: String, method: Method): MethodParser {
